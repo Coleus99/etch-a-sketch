@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JS Etch a Sketch</title>
+<style>
+    body{
+        max-width: 1200px;
+        margin: 40px auto;
+    }
+    .grid{
+        display: inline-flex;
+        flex-flow: column;
+        width: 960px;
+        height: 960px;
+        border: 1px solid black;
+    }
+    .row{
+        flex: 1;
+        display: flex;
+    }
+    .cell{
+        flex: 1;
+        /* background-color: #000000;
+        opacity: 0; */
+    }
+    /* .odd{
+        background-color: #e9e9e9;
+    } */
+</style>
+</head>
+<body>
+    <div class="grid"></div>
+</body>
+<footer>
+    <script>
+        let grid = document.querySelector('.grid');
+        function createGrid(gridSize){
+            for(let i=0;i<gridSize;i++){
+            let row=document.createElement('div');
+            row.classList.add('row');
+            for (let j=0;j<gridSize;j++){
+                let cell=document.createElement('div');
+                cell.classList.add('cell');
+                cell.setAttribute('data-opacity',0);
+                if((i+j)%2==0){
+                    cell.classList.add('odd');
+                }
+                row.appendChild(cell);
+            }
+            grid.appendChild(row);
+        };
+        }
+        
+        createGrid(16);
+
+        grid.addEventListener('mouseover', event => {
+            if(event.target.classList.contains('cell')){
+                // event.target.style.opacity += 0.2;
+                event.target.setAttribute('data-opacity',parseInt(event.target.getAttribute('data-opacity')) + 25);
+                event.target.style.backgroundColor = `#000000${event.target.getAttribute('data-opacity')}`;
+            }
+        });
+
+        let button = document.createElement('button');
+        button.textContent = 'Grid Size';
+        button.style.display = 'block';
+        button.addEventListener('click', event => {
+            newGridSize = prompt('Number of squares per side?');
+            grid.innerHTML='';
+            createGrid(newGridSize);
+        });
+        let body = document.querySelector('body');
+        body.insertBefore(button,grid);
+
+    </script>
+</footer>
+</html>
